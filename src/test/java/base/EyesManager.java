@@ -28,7 +28,7 @@ public class EyesManager {
 
     public static boolean validatePDF(String filepath) throws IOException, InterruptedException {
         String command = String.format(
-                "java -jar resources/ImageTester.jar -k %s -f %s",
+                "java -jar resources/ImageTester_3.7.1_Linux.jar -k %s -f %s",
                 System.getProperty("applitools.api.key"),
                 filepath);
 
@@ -43,6 +43,7 @@ public class EyesManager {
 
         return true;
     }
+    
 
     public void abort(){
         eyes.abortIfNotClosed();

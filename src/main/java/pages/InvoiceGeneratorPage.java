@@ -1,12 +1,13 @@
 package pages;
 
+import java.io.File;
+import java.time.Duration;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.io.File;
 
 public class InvoiceGeneratorPage {
 
@@ -15,42 +16,42 @@ public class InvoiceGeneratorPage {
 
     //HEADER
     private By invoiceTitleField        = By.id("invoice-title");
-    private By logoInput                = By.xpath("//div[contains(@class, 'invoice-logo')]/descendant::input");
+    private By logoInput                = By.xpath("//div[contains(@class,'photo-drop-zone')]/input[@type='file']");
 
     //FROM FIELDS
-    private By fromNameField            = By.id("invoice-company-name");
-    private By fromEmailField           = By.id("invoice-company-email");
-    private By fromAddressField         = By.id("invoice-company-address1");
-    private By fromCityStateField       = By.id("invoice-company-address2");
-    private By fromZipCodeField         = By.id("invoice-company-address3");
-    private By fromPhoneField           = By.id("invoice-company-phone");
-    private By fromBusinessPhoneField   = By.id("invoice-company-business-number");
+    private By fromNameField            = By.id("company-name");
+    private By fromEmailField           = By.id("company-email");
+    private By fromAddressField         = By.id("company-address-address1");
+    private By fromCityStateField       = By.id("company-address-address2");
+    private By fromZipCodeField         = By.id("company-address-address3");
+    private By fromPhoneField           = By.id("company-phone");
+    private By fromBusinessPhoneField   = By.id("company-business-number");
 
     //TO FIELDS
-    private By toNameField              = By.id("invoice-client-name");
-    private By toEmailField             = By.id("invoice-client-email");
-    private By toAddressField           = By.id("invoice-client-address1");
-    private By toPhoneField             = By.id("invoice-client-phone");
+    private By toNameField              = By.id("client-name");
+    private By toEmailField             = By.id("client-email");
+    private By toAddressField           = By.id("client-address-address1");
+    private By toPhoneField             = By.id("client-phone");
 
 
     private By invoiceNumberField       = By.id("invoice-number");
 
     //ITEMS
-    private String itemRow_Format       = "//tr[contains(@class, 'item-row-%d')]";
-    private By itemDescription_Child    = By.id("invoice-item-code");
+    private String itemRow_Format       = "(//tr[contains(@class, 'item-row') and not(contains(@class, 'item-row-new'))])[%d]";
+    private By itemDescription_Child    = By.id("item-code");
     private By itemPrice_Child          = By.xpath("td[contains(@class, 'item-row-rate')]/descendant::input");
     private By itemQuantity_Child       = By.xpath("td[contains(@class, 'item-row-quantity')]/descendant::input");
     private By itemDetails_Child        = By.tagName("textarea");
-    private By addItemButton            = By.id("invoice-item-add");
+    private By addItemButton            = By.id("add-item-button");
 
-    private By getLinkButton            = By.xpath("//span[text()='Get Link']/parent::button");
+    private By getLinkButton            = By.xpath("//button[contains(@class, 'btn-get-public-link')]");   
 
     private By colorSelectList          = By.className("color-select-option");
 
 
     public InvoiceGeneratorPage(WebDriver driver){
         this.driver = driver;
-        wait = new WebDriverWait(driver, 5);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
     }
 
     public void setInvoiceTitle(String title){
@@ -60,9 +61,10 @@ public class InvoiceGeneratorPage {
         field.sendKeys(title);
     }
 
-    public void setLogo(File imgFile){
-        driver.findElement(logoInput).sendKeys(imgFile.getAbsolutePath());
-    }
+  public void setLogo(File imgFile){
+    WebElement input = wait.until(ExpectedConditions.presenceOfElementLocated(logoInput));
+    input.sendKeys(imgFile.getAbsolutePath());
+}
 
     public void setFromName(String name){
         driver.findElement(fromNameField).sendKeys(name);
@@ -141,7 +143,9 @@ public class InvoiceGeneratorPage {
     }
 
     public InvoicePreviewPage clickGetLink(){
-        driver.findElement(getLinkButton).click();
+        WebElement button = driver.findElement(getLinkButton);
+        wait.until(ExpectedConditions.elementToBeClickable(button));
+        button.click();
         return new InvoicePreviewPage(driver);
     }
 

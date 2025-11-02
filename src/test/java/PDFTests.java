@@ -1,19 +1,40 @@
-import base.BaseTests;
-import base.EyesManager;
-import org.junit.Assert;
-import org.junit.Test;
-import pages.InvoiceGeneratorPage;
-import pages.InvoicePreviewPage;
-import utils.FileUtils;
-
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import base.BaseTests;
+import base.EyesManager;
+import pages.InvoiceGeneratorPage;
+import pages.InvoicePreviewPage;
+import pages.SignupPage;
+import utils.FileUtils;
 
 public class PDFTests extends BaseTests {
 
     @Test
     public void testInvoices() {
-        
+
+        // 1️⃣ Abrir la página de signup
+        driver.get("https://app.invoicesimple.com/signup");
+
+        // crear cuenta
+        SignupPage signupPage = new SignupPage(driver);
+        signupPage.createAccount("Rutbel", "Ttito", "calidad");
+
+        // 3️⃣ Esperar botón "Nueva factura" y hacer clic
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        By newInvoiceButton = By.xpath("//button[contains(text(),'Nueva factura')]");
+        wait.until(ExpectedConditions.elementToBeClickable(newInvoiceButton)).click();
+
+        // 3.1️⃣ Esperar a que cargue el generador de facturas
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("invoice-title")));
+
         String invoiceNumber = "INV12345";
 
         InvoiceGeneratorPage generatorPage = new InvoiceGeneratorPage(driver);
@@ -50,10 +71,14 @@ public class PDFTests extends BaseTests {
 
         InvoicePreviewPage previewPage = generatorPage.clickGetLink();
         eyesManager.validateWindow();
-        previewPage.clickPDFButton();
+        
+        // Pasar el invoiceNumber al método clickPDFButton
+        previewPage.clickPDFButton(invoiceNumber);
 
-        //TODO: change the pathname to your own
-        File downloadedPDF = new File("/Users/angie/Downloads/" + invoiceNumber + ".pdf");
+        // Construir la ruta del archivo descargado usando user.home
+        String downloadPath = System.getProperty("user.home") + "/Downloads/" + invoiceNumber + ".pdf";
+        File downloadedPDF = new File(downloadPath);
+        
         String destination = "resources/Invoice_PDFs/" + invoiceNumber + ".pdf";
         Assert.assertTrue(invoiceNumber + ".pdf file was not moved to test location",
                 FileUtils.moveFile(downloadedPDF, destination));
