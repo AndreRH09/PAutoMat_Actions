@@ -47,7 +47,10 @@ jobs:
       run: |
         mkdir -p resources/Invoice_PDFs
         cat > resources/test.properties << EOF
-sites.invoices.url=https://www.invoicesimple.com/invoice-generator
+sites:
+  invoices:
+    url: "https://www.invoicesimple.com/invoice-generator"
+    
 webdriver.chrome.driver=/usr/local/bin/chromedriver
 applitools.api.key=\${APPLITOOLS_API_KEY}
 EOF
