@@ -73,10 +73,8 @@ webdriver:
 applitools:
   api:
     key: "${APPLITOOLS_API_KEY}"
-
 EOF
-
-fi
+        fi
     
     - name: Download ImageTester.jar (if needed)
       run: |
