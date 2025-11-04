@@ -56,24 +56,24 @@ jobs:
         if [ ! -f "resources/test.properties" ]; then
           echo "Creating test.properties..."
           cat > resources/test.properties << 'EOF'
-################
-#  MY APP      #
-################
-sites:
-  invoices:
-    url: "https://www.invoicesimple.com/invoice-generator"
-################
-#  SELENIUM    #
-################
-webdriver:
-  chrome:
-    driver: "/usr/local/bin/chromedriver"
-################
-#  APPLITOOLS  #
-################
-applitools:
-  api:
-    key: "${APPLITOOLS_API_KEY}"
+        ################
+        #  MY APP      #
+        ################
+        sites:
+          invoices:
+            url: "https://www.invoicesimple.com/invoice-generator"
+        ################
+        #  SELENIUM    #
+        ################
+        webdriver:
+          chrome:
+            driver: "/usr/local/bin/chromedriver"
+        ################
+        #  APPLITOOLS  #
+        ################
+        applitools:
+          api:
+            key: "${APPLITOOLS_API_KEY}"
 
 EOF
 
