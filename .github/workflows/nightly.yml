@@ -54,7 +54,7 @@ jobs:
         mkdir -p resources
         if [ ! -f "resources/test.properties" ]; then
           echo "Creating test.properties..."
-          cat > resources/test.properties << EOF
+          cat > resources/test.properties << 'EOF'
 ################
 #  MY APP      #
 ################
@@ -70,8 +70,9 @@ webdriver:
 ################
 #  APPLITOOLS  #
 ################
-env:
-  APPLITOOLS_API_KEY: ${{ secrets.APPLITOOLS_API_KEY }}
+applitools:
+  api:
+    key: "${APPLITOOLS_API_KEY}"
 
 EOF
 
