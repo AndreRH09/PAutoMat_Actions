@@ -21,14 +21,7 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-        cache: maven
-    
-    - name: Cache Maven dependencies
-      uses: actions/cache@v4
-      with:
-        path: ~/.m2
-        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-        restore-keys: ${{ runner.os }}-m2
+        cache: 'maven'
     
     - name: Set up Chrome
       uses: browser-actions/setup-chrome@latest
@@ -122,9 +115,8 @@ fi
       uses: actions/upload-artifact@v4
       with:
         name: test-results
-        path: |
-          target/surefire-reports/
-          target/surefire-reports/**/*
+        path: target/surefire-reports/
+        if-no-files-found: ignore
         retention-days: 30
     
     - name: Upload screenshots (if any)
