@@ -58,28 +58,27 @@ jobs:
         mkdir -p resources
         if [ ! -f "resources/test.properties" ]; then
           echo "Creating test.properties..."
-          cat > resources/test.properties << EOF
-################
-#  MY APP      #
-################
-sites:
-  invoices:
-    url: "https://www.invoicesimple.com/invoice-generator"
-################
-#  SELENIUM    #
-################
-webdriver:
-  chrome:
-    driver: "/usr/local/bin/chromedriver"
-################
-#  APPLITOOLS  #
-################
-env:
-  APPLITOOLS_API_KEY: ${{ secrets.APPLITOOLS_API_KEY }}
-
-EOF
-
-fi
+          {
+            echo '################'
+            echo '#  MY APP      #'
+            echo '################'
+            echo 'sites:'
+            echo '  invoices:'
+            echo '    url: "https://www.invoicesimple.com/invoice-generator"'
+            echo '################'
+            echo '#  SELENIUM    #'
+            echo '################'
+            echo 'webdriver:'
+            echo '  chrome:'
+            echo '    driver: "/usr/local/bin/chromedriver"'
+            echo '################'
+            echo '#  APPLITOOLS  #'
+            echo '################'
+            echo 'applitools:'
+            echo '  api:'
+            echo '    key: "${APPLITOOLS_API_KEY}"'
+          } > resources/test.properties
+        fi
     
     - name: Download ImageTester.jar (if needed)
       run: |
