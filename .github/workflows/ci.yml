@@ -78,9 +78,12 @@ webdriver:
 ################
 #  APPLITOOLS  #
 ################
-applitools.api.key=\${APPLITOOLS_API_KEY}
+env:
+  APPLITOOLS_API_KEY: ${{ secrets.APPLITOOLS_API_KEY }}
+
 EOF
-        fi
+
+fi
     
     - name: Download ImageTester.jar (if needed)
       run: |
