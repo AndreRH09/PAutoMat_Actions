@@ -72,8 +72,9 @@ sites:
 ################
 #  SELENIUM    #
 ################
-webdriver.chrome.driver=/usr/local/bin/chromedriver
-
+webdriver:
+  chrome:
+    driver: "/usr/local/bin/chromedriver"
 ################
 #  APPLITOOLS  #
 ################
