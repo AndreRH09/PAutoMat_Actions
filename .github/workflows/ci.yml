@@ -66,8 +66,9 @@ jobs:
 ################
 #  MY APP      #
 ################
-sites.invoices.url=https://www.invoicesimple.com/invoice-generator
-
+sites:
+  invoices:
+    url: "https://www.invoicesimple.com/invoice-generator"
 ################
 #  SELENIUM    #
 ################
